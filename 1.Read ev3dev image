@@ -1,0 +1,27 @@
+#sudo fdisk -l ev3dev.img
+
+	Disk ev3dev.img: 1.8 GiB, 1887436800 bytes, 3686400 sectors
+	Units: sectors of 1 * 512 = 512 bytes
+	Sector size (logical/physical): 512 bytes / 512 bytes
+	I/O size (minimum/optimal): 512 bytes / 512 bytes
+	Disklabel type: dos
+	Disk identifier: 0xc02eee6c
+	
+	设备        	启动  	  Start  末尾  扇区  Size Id 类型
+ev3dev.img1        8192  	106495   98304   48M  b W95 FAT32
+ev3dev.img2        106496 	3686399 3579904  1.7G 83 Linux
+
+可以看出有两个分区，一个是fat32类型，一个是linux类型
+一个sector为512
+
+mount windows分区：
+sudo mount -o loop,offset=4194304 ev3dev.img image/                      ===4194304= 512*8192
+#ls image/
+	boot.scr  uImage
+这个目录结构和在window下读取此sd卡是一样的内容。
+
+mount linux分区
+sudo mount -o loop,offset=54525952  ev3dev.img image                     ===106496*512 = 54525952
+
+#ls image/
+bin  boot  dev  etc  home  lib  lost+found  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var

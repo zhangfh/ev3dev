@@ -1,0 +1,46 @@
+Using Docker to Cross-Compile 
+1.download developer tools 
+  docker pull ev3dev/debian-jessie-cross 大概649MB
+2.give it a shorter name
+  docker tag ev3dev/debian-jessie-cross ev3cc
+3.docker images
+  可以看到有两个image， 一个是debian-jessie-cross，一个是ev3cc
+4.因为docker是在windows安装的，
+  在c://Users/pcdalao/example/  下创建hello.c
+	#include <stdio.h>
+
+	int main(int argc, const char *argv[])
+	{
+		printf("Hello World!\n");
+
+		return 0;
+	}
+5. 因为win7使用的是docker toolbox，所以在系统托盘没有鲨鱼的图标
+   docker toolbox自动允许共享c:\Users\pcname 文件夹
+   但必须使用linux风格的路径
+   1)创建一个docker container
+		docker run --rm -it -v C:\Users\pcdalao\example\:/src -w /src ev3cc   必须改为下面的命令
+		docker run --rm -it -v /c/Users/pcdalao/example:/src -w /src ev3cc
+   
+			run means we are running a new container.
+			--rm indicates that we want to throw away the container when we are done. If you don’t do this, docker saves a new container from each run command, which takes up space on your hard drive.
+			-it is two options, it means “interactive” and “tty”. This will let us use the command prompt inside of the container.
+			-v <host-path>:<container-path> lets us use a directory from our host computer inside of the container.
+			-w <container-path> is the working directory inside of the container.
+			ev3cc is the name of the docker image we are using.
+   
+    执行完这个命令后，container创建成功， example目录被mount到/src目录下，且自动进入/src目录
+   2)arm-linux-gnueabi-gcc -o hello hello.c
+	编译完后可以查看C:\Users\pcdalao\example也有hello文件
+   
+	Since this program does not depend on any hardware drivers, we can actually run this program inside of the Docker container! 
+	但实际上无法运行hello，显示：cannot execute binary file: Exec format error
+	docker中先运行
+	#docker run --rm --privileged multiarch/qemu-user-static:register
+	重新进入运行hello即可。
+   3)exit the docker container,
+     #exit
+   4) run hello on ev3 mashine.
+     using winscp to copy hello to machine.
+	 #chmod +x hello 
+	 #./hello

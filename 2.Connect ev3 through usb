@@ -1,0 +1,10 @@
+ev3dev connect to pc through usb.
+1. plug into ev3dev to pc by usb.
+2. windows will install driver and treat it as Remote NDIS Compatible Device
+3. after installing it. right-click the Remote NDIS Compatible Device, select "Network Setting"
+and go to "Change adapter settings"
+4. configure it in ev3 device. see :http://www.ev3dev.org/docs/tutorials/connecting-to-the-internet-via-usb/
+   You must select "Load Window Default Configure" in ev3
+5. use putty to login to ev3.
+   putty version must be 0.70
+   username:robot , password: maker.

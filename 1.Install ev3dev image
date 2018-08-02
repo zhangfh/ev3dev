@@ -1,0 +1,8 @@
+Install ev3dev image
+1. prepare a 2GB SD Card(microSDXC is not supported)
+2. download the latest ev3dev image file.
+   version: ev3dev-jessie-ev3-generic-2017-09-14
+   jessie 是debian的一个发行版本，2015年4月25日发布，默认init系统切换为systemd
+   说明ev3dev建立在debian系统上。
+3. download Etcher from https://etcher.io/
+4. use etcher to flash image to sd card.

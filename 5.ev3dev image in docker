@@ -1,0 +1,54 @@
+1.grab an ev3dev image (https://github.com/ev3dev/docker-library/tree/master/ev3dev-jessie)
+  #  docker pull ev3dev/ev3dev-jessie-ev3-base
+  after download, using "docker images" see the results.
+  REPOSITORY                      TAG                 IMAGE ID            CREATED             SIZE
+  ev3dev/ev3dev-jessie-ev3-base   latest              0c84e6c65d7a        4 days ago          343MB
+2.dockerfile 解析
+  因为下载的是base，所以查看ev3-base.dockerfile
+	FROM ev3dev/debian-jessie-armel-qemu-minbase
+	COPY layers/debian/ /
+	COPY layers/base/ /
+	RUN /brickstrap/base/run
+	COPY layers/ev3/ /
+	RUN /brickstrap/ev3/run
+  具体语法见docker下的dockerfile.txt
+  根据copy命令以及目录，列出基本的目录结构
+  /----|
+	   |--brickstrap/_tar-only/etc/apt
+	   |--etc/apt
+	   |--brickstrap/base/run
+	   |--brickstrap/_etcher_metadata
+	   |--brickstrap/_report
+	   |--brickstrap/_tar-only/etc/hostname
+	   |--etc/
+ 
+   接下来运行/brickstrap/base/run脚本
+   接下来继续拷贝
+     /----|
+	      |--brickstrap/ev3
+		  |--etc/
+   接下来运行/brickstrap/ev3/run脚本
+   
+3. 打tag
+   #docker tag ev3dev/ev3dev-jessie-ev3-base ev3
+   REPOSITORY                      TAG                 IMAGE ID            CREATED             SIZE
+	ev3dev/ev3dev-jessie-ev3-base   latest              0c84e6c65d7a        4 days ago          343MB
+	ev3                             latest              0c84e6c65d7a        4 days ago          343MB
+4. run ev3 as a docker container
+   # docker run --rm -it ev3 su -l robot
+	--rm Automatically remove the container when it exits (incompatible with -d)
+	-i=false        　　  : Keep STDIN open even if not attached
+	-t=false        　　  : Allocate a pseudo-tty
+	su命令用于切换当前用户身份到其他用户身份，变更时须输入所要变更的用户帐号与密码。
+	l或--login：改变身份时，也同时变更工作目录，以及HOME,SHELL,USER,logname。此外，也会变更PATH变量；
+	
+   结果：exec user process caused "exec format error"
+5. 安装qemu-user-static
+   #docker run --rm --privileged multiarch/qemu-user-static:register
+   multiarch/qemu-user-static      register            8b7827ff9274        2 months ago        1.11MB
+   
+   --privileged=false         Give extended privileges to this container
+   
+6. 再次运行第4步命令，成功。
+   这个container相当于ev3的image。 看看目录结构吧。
+   第二步的猜想正确。

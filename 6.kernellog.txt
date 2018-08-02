@@ -1,0 +1,213 @@
+[    0.000000] Virtual kernel memory layout:
+    vector  : 0xffff0000 - 0xffff1000   (   4 kB)
+    fixmap  : 0xffc00000 - 0xfff00000   (3072 kB)
+    vmalloc : 0xc4800000 - 0xff800000   ( 944 MB)
+    lowmem  : 0xc0000000 - 0xc4000000   (  64 MB)
+    modules : 0xbf000000 - 0xc0000000   (  16 MB)
+      .text : 0xc0008000 - 0xc05cdf64   (5912 kB)
+      .init : 0xc05ce000 - 0xc05fc000   ( 184 kB)
+      .data : 0xc05fc000 - 0xc062f7c0   ( 206 kB)
+       .bss : 0xc062f7c0 - 0xc0653e20   ( 146 kB)
+[    0.000000] SLUB: HWalign=32, Order=0-3, MinObjects=0, CPUs=1, Nodes=1
+[    0.000000] Preemptible hierarchical RCU implementation.
+[    0.000000] 	Build-time adjustment of leaf fanout to 32.
+[    0.000000] NR_IRQS:245
+[    0.000000] clocksource: timer0_1: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 79635851949 ns
+[    0.000000] sched_clock: 32 bits at 24MHz, resolution 41ns, wraps every 89478484971ns
+[    0.000502] Console: colour dummy device 80x30
+[    0.002679] console [tty1] enabled
+[    0.002850] Calibrating delay loop... 148.88 BogoMIPS (lpj=744448)
+[    0.070254] pid_max: default: 32768 minimum: 301
+[    0.070872] Mount-cache hash table entries: 1024 (order: 0, 4096 bytes)
+[    0.071097] Mountpoint-cache hash table entries: 1024 (order: 0, 4096 bytes)
+[    0.073890] CPU: Testing write buffer coherency: ok
+[    0.075379] Setting up static identity map for 0xc0008400 - 0xc000843c
+[    0.082397] devtmpfs: initialized
+[    0.091468] clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 19112604462750000 ns
+[    0.091892] futex hash table entries: 256 (order: -1, 3072 bytes)
+[    0.094979] NET: Registered protocol family 16
+[    0.097365] DMA: preallocated 256 KiB pool for atomic coherent allocations
+[    0.130278] cpuidle: using governor ladder
+[    0.160271] cpuidle: using governor menu
+[    0.165597] legoev3_init: global_cursor_default: 0, default_screen_mode: -1
+[    0.255477] edma edma.0: Legacy memcpy is enabled, things might not work
+[    0.272567] edma edma.0: TI EDMA DMA engine driver
+[    0.273286] edma edma.1: Legacy memcpy is enabled, things might not work
+[    0.291246] edma edma.1: TI EDMA DMA engine driver
+[    0.293620] SCSI subsystem initialized
+[    0.294749] usbcore: registered new interface driver usbfs
+[    0.295360] usbcore: registered new interface driver hub
+[    0.295986] usbcore: registered new device driver usb
+[    0.303931] Bluetooth: Core ver 2.21
+[    0.304366] NET: Registered protocol family 31
+[    0.304533] Bluetooth: HCI device and connection manager initialized
+[    0.304745] Bluetooth: HCI socket layer initialized
+[    0.304925] Bluetooth: L2CAP socket layer initialized
+[    0.305299] Bluetooth: SCO socket layer initialized
+[    0.307989] clocksource: Switched to clocksource timer0_1
+[    0.376555] NET: Registered protocol family 2
+[    0.380619] TCP established hash table entries: 1024 (order: 0, 4096 bytes)
+[    0.380922] TCP bind hash table entries: 1024 (order: 0, 4096 bytes)
+[    0.381138] TCP: Hash tables configured (established 1024 bind 1024)
+[    0.381546] UDP hash table entries: 256 (order: 0, 4096 bytes)
+[    0.381785] UDP-Lite hash table entries: 256 (order: 0, 4096 bytes)
+[    0.382737] NET: Registered protocol family 1
+[    0.384603] RPC: Registered named UNIX socket transport module.
+[    0.384815] RPC: Registered udp transport module.
+[    0.384951] RPC: Registered tcp transport module.
+[    0.385078] RPC: Registered tcp NFSv4.1 backchannel transport module.
+[    0.465274] NFS: Registering the id_resolver key type
+[    0.465671] Key type id_resolver registered
+[    0.465833] Key type id_legacy registered
+[    0.466149] nfs4filelayout_init: NFSv4 File Layout Driver Registering...
+[    0.492662] io scheduler noop registered (default)
+[    0.501903] Serial: 8250/16550 driver, 3 ports, IRQ sharing disabled
+[    0.528591] serial8250.0: ttyS0 at MMIO 0x1c42000 (irq = 25, base_baud = 9375000) is a 16550A
+[    0.551654] serial8250.1: ttyS1 at MMIO 0x1d0c000 (irq = 53, base_baud = 8250000) is a 16550A
+[    0.554436] serial8250.2: ttyS2 at MMIO 0x1d0d000 (irq = 61, base_baud = 8250000) is a TL16C550
+[    0.575635] loop: module loaded
+[    0.580218] zram: Added device: zram0
+[    0.580787] at24 1-0050: 16384 byte 24c128 EEPROM, read-only, 0 bytes/write
+[    0.585554] spi_davinci spi_davinci.1: DMA: supported
+[    0.585803] spi_davinci spi_davinci.1: DMA: RX channel: 0x00000012, TX channel: 0x00000013, event queue: 0
+[    0.595332] Console: switching to mono frame buffer device 44x21
+[    0.604311] fb0: ST7586 frame buffer device, using 10.5 KiB of video memory
+[    0.609684] spi_davinci spi_davinci.1: Controller at 0xfef0e000
+[    0.615708] spi_davinci spi_davinci.0: DMA: supported
+[    0.618569] spi_davinci spi_davinci.0: DMA: RX channel: 0x0000000e, TX channel: 0x0000000f, event queue: 0
+[    0.632605] spi_davinci spi_davinci.0: Controller at 0xfec41000
+[    0.649248] ohci_hcd: USB 1.1 'Open' Host Controller (OHCI) Driver
+[    0.655468] ohci ohci.0: DA8xx OHCI
+[    0.659665] ohci ohci.0: new USB bus registered, assigned bus number 1
+[    0.664940] Waiting for USB PHY clock good...
+[    0.668248] ohci ohci.0: irq 59, io mem 0x01e25000
+[    0.733091] usb usb1: New USB device found, idVendor=1d6b, idProduct=0001
+[    0.738334] usb usb1: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+[    0.743638] usb usb1: Product: DA8xx OHCI
+[    0.746232] usb usb1: Manufacturer: Linux 4.4.87-22-ev3dev-ev3 ohci_hcd
+[    0.751367] usb usb1: SerialNumber: ohci.0
+[    0.757180] hub 1-0:1.0: USB hub found
+[    0.760141] hub 1-0:1.0: 1 port detected
+[    0.765874] usbcore: registered new interface driver usb-storage
+[    0.773470] Waiting for USB PHY clock good...
+[    0.788296] musb-hdrc: ConfigData=0x06 (UTMI-8, dyn FIFOs, SoftConn)
+[    0.788366] musb-hdrc: MHDRC RTL version 1.800 
+[    0.788401] musb-hdrc: setup fifo_mode 2
+[    0.788451] musb-hdrc: 7/9 max ep, 2624/4096 memory
+[    0.793265] omap_rtc da830-rtc: rtc core: registered da830-rtc as rtc0
+[    0.799359] i2c /dev entries driver
+[    0.803217] davinci-wdt davinci-wdt: heartbeat 60 sec
+[    0.808199] Bluetooth: HCI UART driver ver 2.3
+[    0.810634] Bluetooth: HCI UART protocol H4 registered
+[    0.813011] Bluetooth: HCI UART protocol BCSP registered
+[    0.815335] Bluetooth: HCI UART protocol LL registered
+[    0.858363] davinci_mmc da830-mmc.0: Using DMA, 4-bit mode
+[    0.867185] hidraw: raw HID events driver (C) Jiri Kosina
+[    0.874848] usbcore: registered new interface driver usbhid
+[    0.881228] usbhid: USB HID core driver
+[    0.887054] usbcore: registered new interface driver r8712u
+[    0.900174] NET: Registered protocol family 17
+[    0.902819] Bluetooth: BNEP (Ethernet Emulation) ver 1.3
+[    0.905399] Bluetooth: BNEP socket layer initialized
+[    0.915476] Key type dns_resolver registered
+[    0.931543] input: EV3 buttons as /devices/platform/gpio-keys.0/input/input0
+[    0.943560] Waiting for root device /dev/mmcblk0p2...
+[    0.954669] mmc0: new high speed SD card at address 0001
+[    0.967358] mmcblk0: mmc0:0001 ASTC 1.86 GiB 
+[    0.976502]  mmcblk0: p1 p2
+[    1.050285] EXT4-fs (mmcblk0p2): couldn't mount as ext3 due to feature incompatibilities
+[    1.057501] EXT4-fs (mmcblk0p2): couldn't mount as ext2 due to feature incompatibilities
+[    1.097886] EXT4-fs (mmcblk0p2): mounted filesystem with ordered data mode. Opts: (null)
+[    1.110718] VFS: Mounted root (ext4 filesystem) on device 179:2.
+[    1.138303] devtmpfs: mounted
+[    1.142330] Freeing unused kernel memory: 184K
+[    1.595704] random: systemd: uninitialized urandom read (16 bytes read, 14 bits of entropy available)
+[    1.611564] systemd[1]: systemd 215 running in system mode. (+PAM +AUDIT +SELINUX +IMA +SYSVINIT +LIBCRYPTSETUP +GCRYPT +ACL +XZ -SECCOMP -APPARMOR)
+[    1.623823] systemd[1]: Detected architecture 'arm'.
+[    1.737173] systemd[1]: Failed to insert module 'ipv6'
+[    1.745896] systemd[1]: Set hostname to <ev3dev>.
+[    2.273804] random: systemd-sysv-ge: uninitialized urandom read (16 bytes read, 22 bits of entropy available)
+[    2.601233] random: systemd: uninitialized urandom read (16 bytes read, 28 bits of entropy available)
+[    2.616057] random: systemd: uninitialized urandom read (16 bytes read, 28 bits of entropy available)
+[    2.631275] random: systemd: uninitialized urandom read (16 bytes read, 28 bits of entropy available)
+[    2.725273] random: systemd: uninitialized urandom read (16 bytes read, 29 bits of entropy available)
+[    2.738602] random: systemd: uninitialized urandom read (16 bytes read, 29 bits of entropy available)
+[    2.748768] random: systemd: uninitialized urandom read (16 bytes read, 29 bits of entropy available)
+[    2.922027] random: systemd: uninitialized urandom read (16 bytes read, 31 bits of entropy available)
+[    2.943032] random: systemd: uninitialized urandom read (16 bytes read, 31 bits of entropy available)
+[    3.493562] systemd[1]: Starting Forward Password Requests to Wall Directory Watch.
+[    3.501902] systemd[1]: Started Forward Password Requests to Wall Directory Watch.
+[    3.508570] systemd[1]: Starting Remote File Systems (Pre).
+[    3.520055] systemd[1]: Reached target Remote File Systems (Pre).
+[    3.526472] systemd[1]: Starting Dispatch Password Requests to Console Directory Watch.
+[    3.534153] systemd[1]: Started Dispatch Password Requests to Console Directory Watch.
+[    3.547518] systemd[1]: Starting Paths.
+[    3.555066] systemd[1]: Reached target Paths.
+[    3.561786] systemd[1]: Set up automount Arbitrary Executable File Formats File System Automount Point.
+[    3.570530] systemd[1]: Starting Encrypted Volumes.
+[    3.577661] systemd[1]: Reached target Encrypted Volumes.
+[    3.583628] systemd[1]: Expecting device dev-mmcblk0p1.device...
+[    3.600422] systemd[1]: Starting Root Slice.
+[    3.607743] systemd[1]: Created slice Root Slice.
+[    3.614015] systemd[1]: Starting /dev/initctl Compatibility Named Pipe.
+[    3.625335] systemd[1]: Listening on /dev/initctl Compatibility Named Pipe.
+[    3.631491] systemd[1]: Starting Delayed Shutdown Socket.
+[    3.649224] systemd[1]: Listening on Delayed Shutdown Socket.
+[    3.655034] systemd[1]: Starting Journal Socket (/dev/log).
+[    3.669342] systemd[1]: Listening on Journal Socket (/dev/log).
+[    3.675869] systemd[1]: Starting udev Control Socket.
+[    3.684598] systemd[1]: Listening on udev Control Socket.
+[    3.697954] systemd[1]: Starting udev Kernel Socket.
+[    3.706106] systemd[1]: Listening on udev Kernel Socket.
+[    3.712635] systemd[1]: Starting User and Session Slice.
+[    3.721884] systemd[1]: Created slice User and Session Slice.
+[    3.727796] systemd[1]: Starting Journal Socket.
+[    3.736464] systemd[1]: Listening on Journal Socket.
+[    3.740410] systemd[1]: Starting System Slice.
+[    3.755445] systemd[1]: Created slice System Slice.
+[    3.759071] systemd[1]: Starting system-systemd\x2dfsck.slice.
+[    3.772865] systemd[1]: Created slice system-systemd\x2dfsck.slice.
+[    3.778958] systemd[1]: Starting swap with zram...
+[    3.795955] systemd[1]: Starting Restore / save the current clock...
+[    3.880470] systemd[1]: Mounting Debug File System...
+[    3.973428] systemd[1]: Started Set Up Additional Binary Formats.
+[    4.000171] systemd[1]: Starting Create list of required static device nodes for the current kernel...
+[    4.115802] systemd[1]: Starting udev Coldplug all Devices...
+[    4.236366] systemd[1]: Mounting POSIX Message Queue File System...
+[    4.496737] systemd[1]: Starting Load Kernel Modules...
+[    4.604503] systemd[1]: Mounted Huge Pages File System.
+[    4.669348] systemd[1]: Starting system-getty.slice.
+[    4.678979] zram0: detected capacity change from 0 to 100663296
+[    4.732586] systemd[1]: Created slice system-getty.slice.
+[    4.771048] systemd[1]: Started File System Check on Root Device.
+[    4.777024] systemd[1]: Starting Remount Root and Kernel File Systems...
+[    4.894109] systemd[1]: Starting Journal Service...
+[    5.098652] systemd[1]: Started Journal Service.
+[    5.322335] fuse init (API version 7.23)
+[    5.476418] EXT4-fs (mmcblk0p2): re-mounted. Opts: errors=remount-ro
+[    5.517372] Adding 98300k swap on /dev/zram0.  Priority:16383 extents:1 across:98300k SS
+[    9.423595] systemd-udevd[107]: starting version 215
+[   13.361653] lego-port port0: Registered 'in1' on 'legoev3-ports'.
+[   13.362603] lego-port port1: Registered 'in2' on 'legoev3-ports'.
+[   13.455571] lego-port port2: Registered 'in3' on 'legoev3-ports'.
+[   13.456480] lego-port port3: Registered 'in4' on 'legoev3-ports'.
+[   13.457542] lego-port port4: Registered 'outA' on 'legoev3-ports'.
+[   13.524306] lego-port port5: Registered 'outB' on 'legoev3-ports'.
+[   13.525261] lego-port port6: Registered 'outC' on 'legoev3-ports'.
+[   13.526375] lego-port port7: Registered 'outD' on 'legoev3-ports'.
+[   14.538505] ti_omapl_pru_suart ti_omapl_pru_suart.1: fw size 3772. downloading...
+[   14.540080] ti_omapl_pru_suart.1: ttySU0 at MMIO 0x1d00000 (irq = 3, base_baud = 8250000) is a suart_tty
+[   14.574017] ti_omapl_pru_suart.1: ttySU1 at MMIO 0x1d00000 (irq = 4, base_baud = 8250000) is a suart_tty
+[   14.598550] ti_omapl_pru_suart ti_omapl_pru_suart.1: ti_omapl_pru_suart device registered(pru_clk=150000000, asp_clk=132000000)
+[   15.070953] input: EV3 speaker beep as /devices/platform/snd-legoev3/input/input1
+[   15.744200] random: nonblocking pool is initialized
+[   19.860912] systemd-journald[92]: Received request to flush runtime journal from PID 1
+[   29.758310] using random self ethernet address
+[   29.758433] using random host ethernet address
+[   30.121339] using random self ethernet address
+[   30.121441] using random host ethernet address
+[   30.299797] usb0: HOST MAC 12:16:53:47:5e:54
+[   30.304632] usb0: MAC 02:16:53:47:5e:54
+[   30.337017] usb1: HOST MAC 32:16:53:47:5e:54
+[   30.337899] usb1: MAC 22:16:53:47:5e:54
+[   30.700629] configfs-gadget gadget: high-speed config #2: c

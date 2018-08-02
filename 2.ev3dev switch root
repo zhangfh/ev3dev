@@ -1,0 +1,19 @@
+ev3dev 使用root
+1. 执行命令：
+  #sudo ps 
+  We trust you have received the usual lecture from the local System
+  Administrator. It usually boils down to these three things:
+
+    #1) Respect the privacy of others.
+    #2) Think before you type.
+    #3) With great power comes great responsibility.
+
+   [sudo] password for robot:(密码：maker)
+2. sudo cd 
+  #sudo cd debug/
+   sudo: cd: command not found
+  #type cd
+   cd is a shell builtin
+3. sudo -i 
+   Run the shell specified by the target user's password database entry as a login shell
+   root@ev3dev:~# 切换到root

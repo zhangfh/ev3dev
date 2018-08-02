@@ -1,0 +1,16 @@
+
+robot@ev3dev:~$ df -lh
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/root       1.8G  591M  1.1G  36% /
+devtmpfs         29M     0   29M   0% /dev
+tmpfs            29M     0   29M   0% /dev/shm
+tmpfs            29M  332K   29M   2% /run
+tmpfs           5.0M  4.0K  5.0M   1% /run/lock
+tmpfs            29M     0   29M   0% /sys/fs/cgroup
+/dev/mmcblk0p1   48M  2.9M   45M   7% /boot/flash
+tmpfs           5.8M     0  5.8M   0% /run/user/1000
+
+目录结构：
+
+bin   dev  home  lost+found  mnt  proc  run   srv  tmp  var
+boot  etc  lib   media       opt  root  sbin  sys  usr

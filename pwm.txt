@@ -1,0 +1,36 @@
+PWM_LOOKUP("ehrpwm.0", 1, "snd-legoev3",       NULL, 0, PWM_POLARITY_INVERSED),
+
+1. pwm_lookup include/linux/pwm.h
+
+struct pwm_lookup {
+        struct list_head list;
+        const char *provider;
+        unsigned int index;
+        const char *dev_id;
+        const char *con_id;
+        unsigned int period;
+        enum pwm_polarity polarity;
+};
+
+#define PWM_LOOKUP(_provider, _index, _dev_id, _con_id, _period, _polarity) \
+        {                                               \
+                .provider = _provider,                  \
+                .index = _index,                        \
+                .dev_id = _dev_id,                      \
+                .con_id = _con_id,                      \
+                .period = _period,                      \
+                .polarity = _polarity                   \
+        }
+
+PWM_LOOKUP("ehrpwm.0", 1, "snd-legoev3",       NULL, 0, PWM_POLARITY_INVERSED),
+
+		{
+                .provider = "ehrpwm.0",                  
+                .index = 1,                       
+                .dev_id = "snd-legoev3",                   
+                .con_id = NULL,                      
+                .period = 0,                     
+                .polarity = PWM_POLARITY_INVERSED   
+		}
+2. pwm_get drivers/pwm/core.c
+   look up and request a PWM device

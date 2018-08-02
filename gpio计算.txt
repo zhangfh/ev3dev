@@ -1,0 +1,103 @@
+1. /sys/kernel/debug/gpio:
+GPIOs 0-31, platform/davinci_gpio, DaVinci:
+ gpio-1   (                    |pin5                ) in  hi
+ gpio-2   (                    |pin5                ) in  hi
+ gpio-3   (                    |pin2                ) out lo
+ gpio-4   (                    |pin6                ) in  lo
+ gpio-5   (                    |bluetooth slow clock) in  lo
+ gpio-6   (                    |EV3 battery to ADC  ) out hi
+ gpio-12  (                    |pin5                ) in  hi
+ gpio-13  (                    |pin6                ) in  lo
+ gpio-14  (                    |pin5                ) in  hi
+ gpio-15  (                    |pin6                ) in  lo
+ gpio-16  (                    |i2c_clk             ) in  hi
+ gpio-27  (                    |i2c_clk             ) in  lo
+ gpio-28  (                    |i2c_clk             ) in  lo
+ gpio-29  (                    |ev3:ENTER           ) in  lo
+ gpio-30  (                    |pin6                ) in  lo
+ gpio-31  (                    |pin6                ) in  lo
+
+GPIOs 32-63, platform/davinci_gpio, DaVinci:
+ gpio-33  (                    |pin1                ) out lo
+ gpio-34  (                    |pin2                ) in  hi
+ gpio-37  (                    |pin5                ) in  lo
+ gpio-39  (                    |fiq status          ) out lo
+ gpio-40  (                    |pin6                ) in  lo
+ gpio-41  (                    |pin6                ) in  lo
+ gpio-43  (                    |ST7586 A0 Pin       ) out hi
+ gpio-44  (                    |ST7586 CS Pin       ) out hi
+ gpio-51  (                    |PIC ENA             ) out lo
+ gpio-54  (                    |pin2                ) out lo
+ gpio-56  (                    |pin5                ) in  lo
+ gpio-62  (                    |pin6                ) in  lo
+ gpio-63  (                    |pin1                ) out lo
+
+GPIOs 64-95, platform/davinci_gpio, DaVinci:
+ gpio-73  (                    |bluetooth disable   ) out hi
+ gpio-78  (                    |PIC RST             ) out hi
+ gpio-80  (                    |ST7586 Reset Pin    ) out hi
+ gpio-83  (                    |pin1                ) out lo
+ gpio-84  (                    |pin5                ) in  lo
+ gpio-87  (                    |PIC CTS             ) in  lo
+ gpio-88  (                    |pin5_tacho          ) in  lo
+ gpio-89  (                    |pin2                ) out lo
+ gpio-90  (                    |pin2                ) out lo
+ gpio-91  (                    |pin5_tacho          ) in  lo
+ gpio-93  (                    |pin5_tacho          ) in  lo
+ gpio-94  (                    |SD Card CD
+         ) in  lo
+ gpio-95  (                    |pin5                ) in  lo
+GPIOs 96-127, platform/davinci_gpio, DaVinci:
+ gpio-100 (                    |pin1                ) out lo
+ gpio-101 (                    |System power enable ) out hi
+ gpio-102 (                    |ev3:LEFT            ) in  lo
+ gpio-103 (                    |ev3-left1-led       ) out hi
+ gpio-104 (                    |pin1                ) out lo
+ gpio-105 (                    |pin5_tacho          ) in  lo
+ gpio-106 (                    |ev3:BACK            ) in  lo
+ gpio-107 (                    |System 5V power enab) out hi
+ gpio-108 (                    |ev3-right0-led      ) out lo
+ gpio-109 (                    |ev3-left0-led       ) out lo
+ gpio-110 (                    |ev3-right1-led      ) out hi
+ gpio-111 (                    |snd_ena             ) out lo
+ gpio-120 (                    |pin2                ) in  hi
+ gpio-121 (                    |buf_ena             ) out hi
+ gpio-122 (                    |buf_ena             ) out hi
+ gpio-123 (                    |pin2                ) in  hi
+ gpio-124 (                    |ev3:RIGHT           ) in  lo
+ gpio-126 (                    |ev3:DOWN            ) in  lo
+ gpio-127 (                    |ev3:UP              ) in  lo
+
+GPIOs 128-143, platform/davinci_gpio, DaVinci:
+ gpio-131 (                    |i2c_clk             ) in  lo
+ gpio-136 (                    |EV3 battery type ind) in  hi
+ gpio-137 (                    |pin1                ) out lo
+ gpio-138 (                    |pin1                ) out lo
+ gpio-139 (                    |buf_ena             ) out hi
+ gpio-140 (                    |pin1                ) out lo
+ gpio-142 (                    |buf_ena             ) out hi
+ gpio-143 (                    |pin2                ) in  hi
+
+ 2.gpio  enable for sound
+	#define PIN(ev3_name, da850_name) \
+	EV3_##ev3_name          = DA850_##da850_name,
+
+	#define GPIO_PIN(ev3_name, group, pin)                  \
+	EV3_##ev3_name          = DA850_GPIO##group##_##pin,    \
+	EV3_##ev3_name##_PIN    = GPIO_TO_PIN(group, pin),
+	
+	./arch/arm/mach-davinci/board-legoev3.h
+        /* sound pins */
+    PIN(SND_PWM, EHRPWM0_B)     ==> EV3_SND_PWM = DA850_EHRPWM0_B
+    GPIO_PIN(SND_ENA, 6, 15)    ==> EV3_SND_ENA = DA850_GPIO6_15, EV3_SND_ENA_PIN = GPIO_TO_PIN(6,15)
+	
+    DA850_GPIO6_15 and DA850_EHRPWM0_B are defined in arch/arm/mach-davinci/include/mach/mux.h
+   sound 使用了两个gpio，一个是pwm： EV3_SND_PWM， 一个是gpio：EV3_SND_ENA_PIN
+   
+   EV3_SND_ENA_PIN 是第六组第15个， 这个cpu一组由16个gpio， 从第一组开始，所以这个gpio是：
+     6 x 16 + 15 = 111， 
+   可以从第一个看出是gpio-111， 如果查看arch/arm/mach-davinci/include/mach/mux.h：
+   DA850_GPIO5_15 - DA850_GPIO0_0 = 111
+ 3. GPIO_PIN(FIQ_STAT, 2, 7)
+    gpio-39  (                    |fiq status          ) out lo
+	arch/arm/mach-davinci/legoev3-fiq.c gpio_request_one(pdata->status_gpio, GPIOF_INIT_LOW, "fiq status");
