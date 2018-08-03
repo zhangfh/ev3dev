@@ -61,6 +61,10 @@ lego ev3 sound
    #cd /sys/bus/platform/devices/snd-legoev3
 4. module parameters
    #/sys/module/snd_legoev3/parameters
+5. test sound 
+   1)#beep  响铃
+   2)\a 也是响铃， 所以prinf('\a')也是响铃 
+   
 Sound
 The snd-legoev3 module provedes an ALSA driver for PCM playback and a Linux input device with sound capabilities (EV_SND) for producing tones.
 
