@@ -1,0 +1,69 @@
+lego ev3 sound
+1.proc
+  #cat /proc/modules
+  
+	snd_legoev3 6588 0 - Live 0xbf0b4000
+	snd_pcm 64825 1 snd_legoev3, Live 0xbf099000
+	snd_timer 19835 1 snd_pcm, Live 0xbf085000
+	snd 37167 3 snd_legoev3,snd_pcm,snd_timer, Live 0xbf073000
+	soundcore 736 1 snd, Live 0xbf06f000
+	
+  these mean module relationship.
+  #ls /proc/asound
+  
+	dr-xr-xr-x 2 root root 0 Jan  1 01:11 card0
+	-r--r--r-- 1 root root 0 Jan  1 01:11 cards
+	-r--r--r-- 1 root root 0 Jan  1 01:11 devices
+	lrwxrwxrwx 1 root root 5 Jan  1 01:11 legoev3 -> card0
+	-r--r--r-- 1 root root 0 Jan  1 01:11 modules
+	-r--r--r-- 1 root root 0 Jan  1 01:11 pcm
+	dr-xr-xr-x 2 root root 0 Jan  1 01:11 seq
+	-r--r--r-- 1 root root 0 Jan  1 01:11 timers
+	-r--r--r-- 1 root root 0 Jan  1 01:11 version
+  #cat /proc/asound/cards 
+	0 [legoev3        ]: legoev3 - LEGO Mindstorms EV3 speaker
+						 LEGO Mindstorms EV3 speaker connected to ehrpwm.0
+  #cat /proc/asound/devices
+	0: [ 0]   : control
+	16: [ 0- 0]: digital audio playback
+	33:        : timer
+  #cat /proc/asound/modules
+    0 snd_legoev3
+  #cat /proc/asound/pcm 
+	00-00: LEGO Mindstorms EV3 : LEGO Mindstorms EV3 : playback 1
+  #cat /proc/asound/timers
+	G0: system timer : 10000.000us (10000000 ticks)
+	P0-0-0: PCM playback 0-0-0 : SLAVE
+  #cat /proc/asound/version
+  Advanced Linux Sound Architecture Driver Version k4.4.87-22-ev3dev-ev3.
+  #ls /proc/asound/card0
+  id
+  #cat /proc/asound/card0/id 
+  legoev3
+2. dev
+  #tree /dev/snd/
+	/dev/snd/
+	|-- by-path
+	|   `-- platform-snd-legoev3 -> ../controlC0
+	|-- controlC0
+	|-- pcmC0D0p
+	|-- seq
+	`-- timer
+
+   #/dev/input$ tree
+	|-- by-path
+	|   |-- platform-gpio-keys.0-event -> ../event0
+	|   `-- platform-snd-legoev3-event -> ../event1
+	|-- event0
+	`-- event1
+
+3. bus 
+   #cd /sys/bus/platform/devices/snd-legoev3
+4. module parameters
+   #/sys/module/snd_legoev3/parameters
+Sound
+The snd-legoev3 module provedes an ALSA driver for PCM playback and a Linux input device with sound capabilities (EV_SND) for producing tones.
+
+The ALSA driver can be used with standard tools such as alsamixer and aplay. 
+Tones can be produced by using the beep command, ioctls such as KDMKTONE (must run on local console or as root for ioctls) 
+or by writing SND_* events to the event device (must be member of input group for this).   

@@ -1,0 +1,10 @@
+how to get kernel version
+1. from image
+   #uname -a
+   4.4.87-22-ev3dev_ev3
+2. from souce code 
+   #cat Makefile
+   VERSION = 4
+	PATCHLEVEL = 4
+	SUBLEVEL = 87
+	EXTRAVERSION = -22-ev3dev-ev3
