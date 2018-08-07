@@ -1,0 +1,54 @@
+fake sound card 
+
+#sudo amixer -c 1
+	Simple mixer control 'fake',0
+	Capabilities: pvolume pvolume-joined
+	Playback channels: Mono
+	Limits: Playback 0 - 256
+	Mono: Playback 0 [0%]
+#sudo amixer -c 1 control
+	numid=1,iface=MIXER,name='fake Playback Volume'
+#sudo amixer -c 1 contents
+	numid=1,iface=MIXER,name='fake Playback Volume'
+	; type=INTEGER,access=rw------,values=1,min=0,max=256,step=0
+	: values=0
+#sudo amixer -c 1 cget numid=1,iface=MIXER,name='fake Playback Volume'
+	numid=1,iface=MIXER,name='fake Playback Volume'
+	; type=INTEGER,access=rw------,values=1,min=0,max=256,step=0
+	: values=0
+# sudo  amixer -c 1 cset  numid=1,iface=MIXER,name='fake Playback Volume'  25
+	numid=1,iface=MIXER,name='fake Playback Volume'
+	; type=INTEGER,access=rw------,values=1,min=0,max=256,step=0
+	: values=25
+# sudo amixer -c 1 scontrols
+	Simple mixer control 'fake',0
+# sudo aplay -L
+default:CARD=fakesnd
+    fake speaker, Fake Sound PCM
+    Default Audio Device
+sysdefault:CARD=fakesnd
+    fake speaker, Fake Sound PCM
+    Default Audio Device
+dmix:CARD=fakesnd,DEV=0
+    fake speaker, Fake Sound PCM
+    Direct sample mixing device
+dsnoop:CARD=fakesnd,DEV=0
+    fake speaker, Fake Sound PCM
+    Direct sample snooping device
+hw:CARD=fakesnd,DEV=0
+    fake speaker, Fake Sound PCM
+    Direct hardware device without any conversions
+plughw:CARD=fakesnd,DEV=0
+    fake speaker, Fake Sound PCM
+    Hardware device with all software conversions
+
+#sudo aplay -D "plughw:1,0" 1.mp3
+	->.hw_params
+	->.prepare
+	->.trigger start
+	->.pointer 
+	->.pointer 
+	->.trigger stop
+	->.hw_free
+	->.close
+
