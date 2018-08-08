@@ -1,0 +1,8 @@
+kernel macro define
+1.IS_ENABLED
+  include/linux/kconfig.h
+  how to use:
+	IS_ENABLED(CONFIG_SND_DUMMY) //if CONFIG_SND_DUMMY is set y or m, it will return 1
+    if(IS_ENABLED(CONFIG_SND_DUMMY)){
+		...
+	}

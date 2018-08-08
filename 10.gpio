@@ -1,3 +1,61 @@
+
+1.file
+  arch/arm/mach-davinci/board-legoev3.h
+2.gpio define 
+
+	#define PIN(ev3_name, da850_name) \
+	EV3_##ev3_name          = DA850_##da850_name,
+
+	#define GPIO_PIN(ev3_name, group, pin)                  \
+	EV3_##ev3_name          = DA850_GPIO##group##_##pin,    \
+	EV3_##ev3_name##_PIN    = GPIO_TO_PIN(group, pin),
+
+	/* Convert GPIO signal to GPIO pin number */ (./include/linux/platform_data/gpio-davinci.h)
+	#define GPIO_TO_PIN(bank, gpio)	(16 * (bank) + (gpio))
+
+3. 以sound的两个功能pin为例 
+   PIN(SND_PWM, EHRPWM0_B) ==>  	EV3_SND_PWM = DA850_EHRPWM0_B
+   GPIO_PIN(SND_ENA, 6, 15) ==>  	EV3_SND_ENA = DA850_GPIO6_15
+									EV3_SND_ENA_PIN = 16*6+15 
+   所以在枚举legoev3_pin_map中EV3_SND_PWM为DA850_EHRPWM0_B，EV3_SND_ENA为DA850_GPIO6_15，EV3_SND_ENA_PIN为111
+   
+   DA850_EHRPWM0_B 定义在arch/arm/mach-davinci/include/mach/mux.h 枚举davinci_da850_index
+   DA850_GPIO6_15 同样定义在arch/arm/mach-davinci/include/mach/mux.h 枚举davinci_da850_index
+   配置：
+   
+   static const short legoev3_sound_pins[] __initconst = {
+        EV3_SND_PWM, EV3_SND_ENA,
+        -1
+	};
+	ret = davinci_cfg_reg_list(legoev3_sound_pins);
+	
+	davinci_cfg_reg_list定义在arch/arm/mach-davinci/mux.c
+	
+	而真正的缺省配置在da850_pins（arch/arm/mach-davinci/da850.c）
+	MUX_CFG(DA850, GPIO6_15,        13,     0,      15,     8,      false
+	MUX_CFG(DA850, SPI0_ENA,        3,      4,      15,     1,      false)
+	
+	/arch/arm/mach-davinci/mux.h
+	struct mux_config {
+	const char *name;
+	const char *mux_reg_name;
+	const unsigned char mux_reg;
+	const unsigned char mask_offset;
+	const unsigned char mask;
+	const unsigned char mode;
+	bool debug;
+	};
+	#define MUX_CFG(soc, desc, muxreg, mode_offset, mode_mask, mux_mode, dbg)\
+	[soc##_##desc] = {							\
+			.name =  #desc,					\
+			.debug = dbg,					\
+			.mux_reg_name = "PINMUX"#muxreg,		\
+			.mux_reg = PINMUX(muxreg),			\
+			.mask_offset = mode_offset,			\
+			.mask = mode_mask,				\
+			.mode = mux_mode,				\
+		},
+
 1. /sys/kernel/debug/gpio:
 GPIOs 0-31, platform/davinci_gpio, DaVinci:
  gpio-1   (                    |pin5                ) in  hi
@@ -100,4 +158,8 @@ GPIOs 128-143, platform/davinci_gpio, DaVinci:
    DA850_GPIO5_15 - DA850_GPIO0_0 = 111
  3. GPIO_PIN(FIQ_STAT, 2, 7)
     gpio-39  (                    |fiq status          ) out lo
-	arch/arm/mach-davinci/legoev3-fiq.c gpio_request_one(pdata->status_gpio, GPIOF_INIT_LOW, "fiq status");
+	arch/arm/mach-davinci/legoev3-fiq.c gpio_request_one(pdata->status_gpio, GPIOF_INIT_LOW, "fiq status");	
+	
+
+   
+   
