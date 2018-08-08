@@ -1,0 +1,30 @@
+# ev3dev development
+1.ev3dev-buildscripts 
+  # https://github.com/zhangfh/ev3dev-buildscripts/tree/ev3dev-jessie
+  
+  # If you haven't already added the ev3dev.org repository...
+  sudo apt-add-repository "deb http://archive.ev3dev.org/ubuntu trusty main"
+  sudo apt-key adv --keyserver pgp.mit.edu --recv-keys 2B210565
+  sudo apt-get update
+  
+  # then install required packages
+  sudo apt-get install git build-essential ncurses-dev fakeroot bc
+  
+  sudo apt-get install u-boot-tools lzop gcc-linaro-arm-linux-gnueabihf-5.2
+  
+  git clone git://github.com/ev3dev/ev3dev-buildscripts --branch ev3dev-jessie
+2. kernel
+  # https://github.com/zhangfh/ev3-kernel/tree/ev3dev-jessie
+  git clone --recursive git://github.com/ev3dev/ev3-kernel --branch ev3dev-jessie --depth 50
+
+3.compile
+  ~/work $ cd ev3dev-buildscripts
+  ~/work/ev3dev-buildscripts $ echo "export EV3DEV_MAKE_ARGS=-j4" > local-env
+  ~/work/ev3dev-buildscripts $ ./build-kernel
+4.run 
+  将已经烧录好image的U盘查到电脑，ubuntu自动识别两个分区
+  cp uImage /media/zhangfanghui/BOOT/
+  cp -r lib/ /media/zhangfanghui/ROOTFS
+  将sd卡重新插回ev3，启动，ok。查看log是自己编译的。完美
+  #uname -a 
+  Linux ev3dev 4.4.87-22-ev3dev-ev3+ #1 PREEMPT Wed Aug 8 11:25:16 CST 2018 armv5tejl GNU/Linux
