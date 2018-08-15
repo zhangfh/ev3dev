@@ -2,8 +2,8 @@ all code come from linux 4.15
 1.insmod udc-core.ko
 2.insmod libcomposite.ko
 3.insmod dummy_hcd.ko
-  rmmod usbtest
 4.insmod g_zero.ko loopdefault=1
+  rmmod usbtest
 5.insmod usb-skeleton.ko
 6.
   crw------- 1 root root 180, 0 8月  15 13:29 /dev/skel0

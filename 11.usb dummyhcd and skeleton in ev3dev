@@ -52,3 +52,4 @@ build-kernel
 sudo insmod dummy_hcd.ko 
 sudo insmod g_zero.ko 
 #here, ev3dev will auto load usb-skeleton.ko 
+sudo chown robot:robot /dev/skel0

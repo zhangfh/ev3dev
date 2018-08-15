@@ -1,0 +1,30 @@
+pc using configfs to enable usb loopback function
+
+1.insmod udc-core.ko
+2.insmod libcomposite.ko
+3.insmod dummy_hcd.ko
+4.insmod usb_f_ss_lb.ko
+
+configfs:
+1.#cd /sys/kernel/config/usb_gadget
+  #mkdir g1
+  #cd g1
+  #echo "0x0525" > idVendor
+  #echo "0xa4a0" > idProduct
+  #mkdir strings/0x409
+  #echo "0123456789ABCDEF" > strings/0x409/serialnumber
+  #echo "Master"  > strings/0x409/manufacturer
+  #echo "Demo"  > strings/0x409/product
+  #mkdir functions/Loopback.usb0
+  #mkdir configs/c.1
+  #mkdir configs/c.1/strings/0x409
+  #echo "loop input to output" > configs/c.1/strings/0x409/configuration
+  #ln -s functions/Loopback.usb0/ configs/c.1/
+  #ls /sys/class/udc/
+	dummy_udc.0
+  #echo dummy_udc.0 > UDC
+2.rmmod usbtest
+3.insmod usb-skeleton
+4.sudo chown zhangfanghui:zhangfanghui /dev/skel0
+
+  
