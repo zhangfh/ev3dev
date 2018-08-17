@@ -267,7 +267,10 @@ retry:
 		printk("wait interruptible\n");
 		rv = wait_event_interruptible(dev->bulk_in_wait, (!dev->ongoing_read));
 		if (rv < 0)
+		{
+			printk("wait event return -1\n");
 			goto exit;
+		}
 	}
 
 	/* errors must be reported */
@@ -334,6 +337,7 @@ retry:
 			goto retry;
 	}
 exit:
+	printk("read exit\n");
 	mutex_unlock(&dev->io_mutex);
 	return rv;
 }
@@ -459,7 +463,7 @@ static ssize_t skel_write(struct file *file, const char *user_buffer,
 	 */
 	usb_free_urb(urb);
 
-
+	printk("finish write\n");
 	return writesize;
 
 error_unanchor:

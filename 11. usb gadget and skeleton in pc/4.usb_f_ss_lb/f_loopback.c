@@ -170,6 +170,7 @@ static int loopback_bind(struct usb_configuration *c, struct usb_function *f)
 	int			id;
 	int ret;
 
+	printk("loopback_bind\n");
 	/* allocate interface ID(s) */
 	id = usb_interface_id(c, f);
 	if (id < 0)
@@ -222,6 +223,7 @@ static void lb_free_func(struct usb_function *f)
 {
 	struct f_lb_opts *opts;
 
+	printk("lb_free_func\n");
 	opts = container_of(f->fi, struct f_lb_opts, func_inst);
 
 	mutex_lock(&opts->lock);
@@ -238,6 +240,7 @@ static void loopback_complete(struct usb_ep *ep, struct usb_request *req)
 	struct usb_composite_dev *cdev = loop->function.config->cdev;
 	int			status = req->status;
 
+	printk("loopback_complete\n");
 	switch (status) {
 	case 0:				/* normal completion? */
 		if (ep == loop->out_ep) {
@@ -246,7 +249,9 @@ static void loopback_complete(struct usb_ep *ep, struct usb_request *req)
 			 * queue it so host can read the from our in ep
 			 */
 			struct usb_request *in_req = req->context;
+			printk("this is out_ep\n");
 
+			printk("burns. actual %d, length %d\n",req->actual ,req->length);
 			in_req->zero = (req->actual < req->length);
 			in_req->length = req->actual;
 			ep = loop->in_ep;
@@ -258,6 +263,7 @@ static void loopback_complete(struct usb_ep *ep, struct usb_request *req)
 			 */
 			req = req->context;
 			ep = loop->out_ep;
+			printk("tihs is in_ep\n");
 		}
 
 		/* queue the buffer back to host or for next bunch of data */
@@ -297,6 +303,7 @@ static void disable_loopback(struct f_loopback *loop)
 {
 	struct usb_composite_dev	*cdev;
 
+	printk("disable_loopback\n");
 	cdev = loop->function.config->cdev;
 	disable_endpoints(cdev, loop->in_ep, loop->out_ep, NULL, NULL);
 	VDBG(cdev, "%s disabled\n", loop->function.name);
@@ -314,6 +321,7 @@ static int alloc_requests(struct usb_composite_dev *cdev,
 	int i;
 	int result = 0;
 
+	printk("alloc_requests\n");
 	/*
 	 * allocate a bunch of read buffers and queue them all at once.
 	 * we buffer at most 'qlen' transfers; We allocate buffers only
@@ -362,6 +370,7 @@ static int enable_endpoint(struct usb_composite_dev *cdev,
 {
 	int					result;
 
+	printk("enable_endpoint\n");
 	result = config_ep_by_speed(cdev->gadget, &(loop->function), ep);
 	if (result)
 		goto out;
@@ -381,6 +390,7 @@ enable_loopback(struct usb_composite_dev *cdev, struct f_loopback *loop)
 {
 	int					result = 0;
 
+	printk("enable_loopback\n");
 	result = enable_endpoint(cdev, loop, loop->in_ep);
 	if (result)
 		goto out;
@@ -409,6 +419,7 @@ static int loopback_set_alt(struct usb_function *f,
 {
 	struct f_loopback	*loop = func_to_loop(f);
 	struct usb_composite_dev *cdev = f->config->cdev;
+	printk("loopback_set_alt\n");
 
 	/* we know alt is zero */
 	disable_loopback(loop);
@@ -418,6 +429,7 @@ static int loopback_set_alt(struct usb_function *f,
 static void loopback_disable(struct usb_function *f)
 {
 	struct f_loopback	*loop = func_to_loop(f);
+	printk("loopback_disable\n");
 
 	disable_loopback(loop);
 }
@@ -427,6 +439,7 @@ static struct usb_function *loopback_alloc(struct usb_function_instance *fi)
 	struct f_loopback	*loop;
 	struct f_lb_opts	*lb_opts;
 
+	printk("loopback_alloc\n");
 	loop = kzalloc(sizeof *loop, GFP_KERNEL);
 	if (!loop)
 		return ERR_PTR(-ENOMEM);
@@ -561,6 +574,7 @@ static const struct config_item_type lb_func_type = {
 static void lb_free_instance(struct usb_function_instance *fi)
 {
 	struct f_lb_opts *lb_opts;
+	printk("lb_free_instance\n");
 
 	lb_opts = container_of(fi, struct f_lb_opts, func_inst);
 	kfree(lb_opts);
@@ -570,6 +584,7 @@ static struct usb_function_instance *loopback_alloc_instance(void)
 {
 	struct f_lb_opts *lb_opts;
 
+	printk("loopback_alloc_instance \n");
 	lb_opts = kzalloc(sizeof(*lb_opts), GFP_KERNEL);
 	if (!lb_opts)
 		return ERR_PTR(-ENOMEM);

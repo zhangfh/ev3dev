@@ -1,0 +1,68 @@
+
+1.insmod udc-core.ko
+2.insmod libcomposite.ko
+3.insmod dummy_hcd.ko
+ 
+4.create a image 
+  #dd if=/dev/zero of=disk.img bs=512 count=10000  #5M
+  # mkdosfs disk.img
+  #sudo mount -t vfat -o sync disk.img file/ 
+  #create a file in file/ to test
+  #sudo umount file
+5. sudo modprobe usb_f_mass_storage
+6.write composite device  ,see code  4.g_mymuti 
+  sudo insmod 4.g_mymuti/g_mymulti.ko file=./image/disk.img iSerialNumber=3000111 iProduct=zhangfanghui 
+  there are two device, one is massstorage, the other is loop
+===============================================================================
+dmesg
+
+[  780.656230] Mass Storage Function, version: 2009/09/11
+[  780.656231] LUN: removable file: (no medium)
+[  780.656245] LUN: file: /home/zhangfanghui/development/The_Linux_Kernel_Module_Programming_Guide/gadget/image/disk.img
+[  780.656245] Number of LUNs=1
+[  780.656261] g_mymulti gadget: Multifunction Composite Gadget
+[  780.656261] g_mymulti gadget: g_mymulti ready
+[  780.889118] usb 2-1: new high-speed USB device number 3 using dummy_hcd
+[  781.109785] usb 2-1: New USB device found, idVendor=1d6b, idProduct=0104
+[  781.109786] usb 2-1: New USB device strings: Mfr=3, Product=4, SerialNumber=5
+[  781.109787] usb 2-1: Product: zhangfanghui
+[  781.109788] usb 2-1: Manufacturer: Linux 4.15.0-32-generic with dummy_udc
+[  781.109789] usb 2-1: SerialNumber: 3000111
+[  781.117243] g_mymulti gadget: high-speed config #1: Multifunction with LOOP
+[  781.149817] usb-storage 2-1:1.1: USB Mass Storage device detected
+[  781.149909] scsi host4: usb-storage 2-1:1.1
+[  782.189740] scsi 4:0:0:0: Direct-Access     Linux    File-Stor Gadget 0415 PQ: 0 ANSI: 2
+[  782.191786] sd 4:0:0:0: Attached scsi generic sg2 type 0
+[  782.229731] sd 4:0:0:0: Power-on or device reset occurred
+[  782.268960] sd 4:0:0:0: [sdb] 10000 512-byte logical blocks: (5.12 MB/4.88 MiB)
+[  782.405234] sd 4:0:0:0: [sdb] Write Protect is off
+[  782.405235] sd 4:0:0:0: [sdb] Mode Sense: 0f 00 00 00
+[  782.541113] sd 4:0:0:0: [sdb] Write cache: enabled, read cache: enabled, doesn't support DPO or FUA
+[  782.877111]  sdb:
+=====================================================================================
+#cat /sys/bus/usb/devices/2-1\:1.0/interface
+loop input to output
+
+#cat /sys/bus/usb/devices/2-1\:1.1/interface
+Mass Storage
+
+6. write device driver for loop , see code : 5.usb_loopback_driver
+   This code is copied from usb-skeleton, just modify vendor id , product id and driver name.
+   sudo insmod usb_loopback_driver.ko
+=====================================================================================
+#cat /sys/kernel/debug/usb/devices
+T:  Bus=02 Lev=01 Prnt=01 Port=00 Cnt=01 Dev#=  3 Spd=480  MxCh= 0
+D:  Ver= 2.00 Cls=ef(misc ) Sub=02 Prot=01 MxPS=64 #Cfgs=  1
+P:  Vendor=1d6b ProdID=0104 Rev= 4.15
+S:  Manufacturer=Linux 4.15.0-32-generic with dummy_udc
+S:  Product=zhangfanghui
+S:  SerialNumber=3000111
+C:* #Ifs= 2 Cfg#= 1 Atr=c0 MxPwr=  2mA
+I:* If#= 0 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=00 Prot=00 Driver=loop_driver
+E:  Ad=81(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=02(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+I:* If#= 1 Alt= 0 #EPs= 2 Cls=08(stor.) Sub=06 Prot=50 Driver=usb-storage
+E:  Ad=86(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=07(O) Atr=02(Bulk) MxPS= 512 Ivl=125us
+
+

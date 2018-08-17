@@ -2,6 +2,15 @@ pc using configfs to enable usb loopback function
 
 1.insmod udc-core.ko
 2.insmod libcomposite.ko
+  /sys/kernel/config/usb_gadget will be created.
+  #cd /sys/kernel/config/usb_gadget
+  #mkdir g1   #g1 is a random name, you can use any name .
+  #ls /sys/kernel/config/usb_gadget/g1 
+	bcdDevice  bDeviceClass     bDeviceSubClass  configs    idProduct  os_desc  UDC
+	bcdUSB     bDeviceProtocol  bMaxPacketSize0  functions  idVendor   strings
+
+  file and directory above will be created automatically.
+  
 3.insmod dummy_hcd.ko
 4.insmod usb_f_ss_lb.ko
 
@@ -15,16 +24,49 @@ configfs:
   #echo "0123456789ABCDEF" > strings/0x409/serialnumber
   #echo "Master"  > strings/0x409/manufacturer
   #echo "Demo"  > strings/0x409/product
-  #mkdir functions/Loopback.usb0
+  #mkdir functions/Loopback.usb0  #Loopback is important. name is unique. It will call alloc_inst()
+  #ls functions/Loopback.usb0 
+    bulk_buflen  qlen #they are created by code 
   #mkdir configs/c.1
+  #ls configs/c.1
+	bmAttributes   MaxPower  strings #they are created automatically
+
   #mkdir configs/c.1/strings/0x409
   #echo "loop input to output" > configs/c.1/strings/0x409/configuration
-  #ln -s functions/Loopback.usb0/ configs/c.1/
+  #ln -s functions/Loopback.usb0/ configs/c.1/ #it will call alloc_func()
   #ls /sys/class/udc/
 	dummy_udc.0
-  #echo dummy_udc.0 > UDC
+  #echo dummy_udc.0 > UDC #it will call bind(),set_alt()
 2.rmmod usbtest
 3.insmod usb-skeleton
 4.sudo chown zhangfanghui:zhangfanghui /dev/skel0
 
   
+  
+ mkdir functions/SourceSink.usb0
+ # ls functions/SourceSink.usb0/
+   bulk_buflen  bulk_qlen  isoc_interval  isoc_maxburst  isoc_maxpacket  isoc_mult  iso_qlen  pattern
+ mkdir configs/c.2
+ mkdir configs/c.2/strings/0x409
+ echo "source and sink data" > configs/c.2/strings/0x409/configuration
+ ln -s functions/SourceSink.usb0/ configs/c.2/
+ 
+ 
+ mass_storage
+  create a image
+  
+  #dd if=/dev/zero of=disk.img bs=512 count=10000  #5M
+  # mkdosfs disk.img
+  #sudo mount -t vfat -o sync disk.img file/ 
+  #create a file in file/ to test
+  #sudo umount file
+  
+  mkdir functions/mass_storage.0
+  mkdir configs/c.3
+  mkdir configs/c.3/strings/0x409
+  echo "Mass Storage Function" > configs/c.3/strings/0x409/configuration
+  ln -s functions/mass_storage.usb0/ configs/c.3/
+  echo <path>disk.img > functions/mass_storage.0/lun.0/file
+  echo dummy_udc.0 > UDC
+  
+  echo "mass_storage + Loopback" > configs/c.1/strings/0x409/configuration

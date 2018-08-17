@@ -14,3 +14,54 @@ all code come from linux 4.15
 
 7.usb debug
   modprobe usbmon
+
+=============================================
+g_multi
+1.insmod udc-core.ko
+2.insmod libcomposite.ko
+3.insmod dummy_hcd.ko
+4.compile g_multi
+  all code in 4.g_multi
+  add #define CONFIG_USB_G_MULTI_RNDIS in multi.c 
+5.in order to convience, 
+  sudo modprobe usb_f_mass_storage
+  sudo modprobe u_ether
+6.create a image 
+  #dd if=/dev/zero of=disk.img bs=512 count=10000  #5M
+  # mkdosfs disk.img
+  #sudo mount -t vfat -o sync disk.img file/ 
+  #create a file in file/ to test
+  #sudo umount file
+7.sudo insmod 4.g_multi/g_multi.ko file=./image/disk.img iSerialNumber=3000111 iProduct=zhdgnss iManufactuy=zhd_survey
+  there are two device, one is massstorage, the other is network card.
+
+  /sys/kernel/debug/usb/devices
+
+T:  Bus=02 Lev=01 Prnt=01 Port=00 Cnt=01 Dev#=  2 Spd=480  MxCh= 0
+D:  Ver= 2.00 Cls=ef(misc ) Sub=02 Prot=01 MxPS=64 #Cfgs=  1
+P:  Vendor=1d6b ProdID=0104 Rev= 4.15
+S:  Manufacturer=Linux 4.15.0-32-generic with dummy_udc
+S:  Product=zhdgnss
+S:  SerialNumber=3000111
+C:* #Ifs= 5 Cfg#= 1 Atr=c0 MxPwr=  2mA
+A:  FirstIf#= 0 IfCount= 2 Cls=02(comm.) Sub=06 Prot=00
+A:  FirstIf#= 2 IfCount= 2 Cls=02(comm.) Sub=02 Prot=01
+I:* If#= 0 Alt= 0 #EPs= 1 Cls=02(comm.) Sub=02 Prot=ff Driver=rndis_host
+E:  Ad=85(I) Atr=03(Int.) MxPS=   8 Ivl=32ms
+I:* If#= 1 Alt= 0 #EPs= 2 Cls=0a(data ) Sub=00 Prot=00 Driver=rndis_host
+E:  Ad=81(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=02(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+I:* If#= 2 Alt= 0 #EPs= 1 Cls=02(comm.) Sub=02 Prot=01 Driver=cdc_acm
+E:  Ad=8a(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
+I:* If#= 3 Alt= 0 #EPs= 2 Cls=0a(data ) Sub=00 Prot=00 Driver=cdc_acm
+E:  Ad=86(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=07(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+I:* If#= 4 Alt= 0 #EPs= 2 Cls=08(stor.) Sub=06 Prot=50 Driver=usb-storage
+E:  Ad=8b(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=0c(O) Atr=02(Bulk) MxPS= 512 Ivl=125us
+
+如果设备满足下列要求，则总线驱动程序还会报告 USB\COMPOSITE 的兼容标识符：
+
+设备描述符的设备类字段 (bDeviceClass) 必须包含一个零值，或者设备描述符的类 (bDeviceClass)、子类 (bDeviceSubClass) 和协议 (bDeviceProtocol) 字段必须分别具有值 0xEF、0x02 和 0x01
+设备必须具有多个接口。
+设备必须具有一个配置。
