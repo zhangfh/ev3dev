@@ -83,9 +83,9 @@ static unsigned int fsg_num_buffers = CONFIG_USB_GADGET_STORAGE_NUM_BUFFERS;
 
 FSG_MODULE_PARAMETERS(/* no prefix */, fsg_mod_data);
 
-static struct usb_function_instance *fi_loopback;
+static struct usb_function_instance *fi_loopback;//fi means function instance
 static struct usb_function_instance *fi_msg;
-static struct usb_function *f_loopback;
+static struct usb_function *f_loopback;//f means function
 static struct usb_function *f_msg_loopback;
 
 static int loop_do_config(struct usb_configuration *c)
