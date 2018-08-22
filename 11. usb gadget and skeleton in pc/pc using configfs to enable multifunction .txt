@@ -1,0 +1,47 @@
+pc using configfs to enable multifunction 
+1.insmod udc-core.ko
+2.insmod libcomposite.ko #  /sys/kernel/config/usb_gadget will be created.
+3.insmod dummy_hcd.ko
+4.insmod usb_f_ss_lb.ko  #loopback function
+5.insmod usb_f_mass_storage #mass_storage function 
+
+6.#cd /sys/kernel/config/usb_gadget
+  #mkdir g1   #g1 is a random name, you can use any name .
+  #cd g1
+  #echo "0x1d6b" > idVendor
+  #echo "0x0104" > idProduct
+  #mkdir strings/0x409
+  #echo "0123456789ABCDEF" > strings/0x409/serialnumber
+  #echo "Master"  > strings/0x409/manufacturer
+  #echo "Demo"  > strings/0x409/product
+  #mkdir functions/Loopback.0
+
+  #mkdir functions/mass_storage.0
+
+  #echo <path>disk.img > functions/mass_storage.0/lun.0/file
+  #echo 0xEF > bDeviceClass #composite class, see usb spec
+  #echo 2 > bDeviceSubClass #composite class, see usb spec
+  #echo 1 > bDeviceProtocol #composite class, see usb spec
+  #mkdir configs/c.1
+  #mkdir configs/c.1/strings/0x409
+  #echo "Mass Loop Multi Funcition" > configs/c.1/strings/0x409/configuratio                                      n
+  
+  #ln -s functions/Loopback.0/ configs/c.1/
+  #ln -s functions/mass_storage.0/ configs/c.1
+  #echo dummy_udc.0 > UDC
+7.# sudo insmod usb_loopback_driver.ko
+8.#cat /sys/kernel/debug/usb/devices
+	T:  Bus=02 Lev=01 Prnt=01 Port=00 Cnt=01 Dev#=  2 Spd=480  MxCh= 0
+	D:  Ver= 2.00 Cls=ef(misc ) Sub=02 Prot=01 MxPS=64 #Cfgs=  1
+	P:  Vendor=1d6b ProdID=0104 Rev= 4.15
+	S:  Manufacturer=Master
+	S:  Product=Demo
+	S:  SerialNumber=0123456789ABCDEF
+	C:* #Ifs= 2 Cfg#= 1 Atr=80 MxPwr=  2mA
+	I:* If#= 0 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=00 Prot=00 Driver=loop_driver
+	E:  Ad=81(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+	E:  Ad=02(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+	I:* If#= 1 Alt= 0 #EPs= 2 Cls=08(stor.) Sub=06 Prot=50 Driver=usb-storage
+	E:  Ad=86(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+	E:  Ad=07(O) Atr=02(Bulk) MxPS= 512 Ivl=125us
+
